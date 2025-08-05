@@ -14,21 +14,28 @@ export class FilmesService {
         return this.prisma.filmes.findMany()
     }
     async findById(id: string): Promise<Filmes | null> {
-        const foundPlace = await this.prisma.filmes.findUnique({ where: { id } })
+        const foundID = await this.prisma.filmes.findUnique({ where: { id } })
 
-        if (!foundPlace) {
-            throw new NotFoundException(`Local com ID ${id} não encontrado!`)
+        if (!foundID) {
+            throw new NotFoundException(`Filme com ID ${id} não encontrado!`)
         }
-        return foundPlace
+        return foundID
     }
     async update(id: string, data): Promise<Filmes | null> {
-        const foundId = await this.prisma.filmes.findUnique({ where: { id } })
+        const foundID = await this.prisma.filmes.findUnique({ where: { id } })
 
+        if (!foundID) {
+            throw new NotFoundException(`Filme com ID ${id} não encontrado!`)
+        }
         return await this.prisma.filmes.update({ where: { id }, data })
     }
 
     async remove(id: string): Promise<Filmes | null> {
-        
+        const foundID = await this.prisma.filmes.findUnique({ where: { id } })
+
+        if (!foundID) {
+            throw new NotFoundException(`Filme com ID ${id} não encontrado!`)
+        }
         return await this.prisma.filmes.delete({ where: { id } })
 
     }
