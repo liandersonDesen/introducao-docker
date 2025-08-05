@@ -12,3 +12,18 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
+  
+  api:
+    build: 
+      context: .
+      dockerfile: dockerfile.api
+    container_name: nest-api_atv_docker
+    env_file:
+      - .env
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on: 
+      - postgres
+    environment:
+      DATABASE_URL: ${DATABASE_URL_CONTAINER}
+    command: sh -c "npx prisma migrate deploy && npm run start:prod"
