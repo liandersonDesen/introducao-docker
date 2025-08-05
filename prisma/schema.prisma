@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum classificacao {
+  LIVRE    @map("Livre")
+  MAIS10   @map("+10")
+  MAIS12   @map("+12")
+  MAIS14   @map("+14")
+  MAIS16   @map("+16")
+  MAIS18   @map("+18")
+}
+
+model Filmes{
+  id String @id @default(uuid())
+  titulo String @unique
+  ano Int
+  duracao Int
+  genero String
+  classificacao classificacao @default(LIVRE)
+}
