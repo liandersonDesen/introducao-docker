@@ -2,13 +2,14 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { CreateFilmesDto } from './dto/create-filmes.dto';
 import { FilmesService } from './filmes.service';
 import { UpdateFilmesDto } from './dto/update-filmes.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger'; 
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger'; 
 import { Filmes } from '@prisma/client';
 @Controller('filmes')
 export class FilmesController {
     constructor(private filmService:FilmesService){}
     @Post()
     @ApiOperation({ summary: 'Criar um novo filme' })
+    @ApiBody({ type: CreateFilmesDto })
     @ApiResponse({ status: 201, description: 'Filme criado com sucesso'})
     async CreateFilm(@Body() data:CreateFilmesDto){
         return this.filmService.create(data)
@@ -29,6 +30,7 @@ export class FilmesController {
 
     @Put(':id')
     @ApiOperation({ summary: 'Atualizar um filme por ID' })
+    @ApiBody({ type: UpdateFilmesDto })
     @ApiResponse({ status: 200, description: 'Filme atualizado'})
     @ApiResponse({ status: 404, description: 'Filme não encontrado' })
     async updateFilm(@Param('id') id: string, @Body() dto: UpdateFilmesDto) {

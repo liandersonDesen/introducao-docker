@@ -9,7 +9,6 @@ async function bootstrap() {
   .setTitle('API de Filmes')
   .setDescription('Documentação Swagger para CRUD de Filmes')
   .setVersion('1.0')
-  .addTag('filmes') // categoria
   .build();
 
   const document = SwaggerModule.createDocument(app, config);
